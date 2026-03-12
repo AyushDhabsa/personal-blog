@@ -17,21 +17,6 @@ const s = {
     letterSpacing: '2px',
     marginBottom: 16,
   },
-  title: {
-    fontFamily: "'Playfair Display', Georgia, serif",
-    fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
-    fontWeight: 700,
-    lineHeight: 1.2,
-    color: '#111827',
-    marginBottom: 24,
-  },
-  subtitle: {
-    fontSize: '1.1rem',
-    color: '#6b7280',
-    lineHeight: 1.7,
-    maxWidth: 540,
-    margin: '0 auto 40px',
-  },
   links: {
     display: 'flex',
     gap: 16,
@@ -134,14 +119,8 @@ export default function Home() {
   const API = import.meta.env.VITE_API_URL || '';
 
   return (
-    <>
-      <section style={s.hero}>
+    <>      <section style={s.hero}>
         <p style={s.greeting}>Welcome</p>
-        <h1 style={s.title}>Thoughts, Research & Ideas</h1>
-        <p style={s.subtitle}>
-          A personal space where I write about things I care about — from technical deep-dives
-          and research papers to everyday observations.
-        </p>
         <div style={s.links}>
           <Link to="/blog" style={s.primary}>Read the Blog</Link>
           <Link to="/research" style={s.secondary}>View Research</Link>
