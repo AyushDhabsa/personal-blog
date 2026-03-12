@@ -76,7 +76,7 @@ export default function Header() {
   return (
     <header style={styles.header}>
       <div style={styles.inner}>
-        <Link to="/" style={styles.logo}>Ayush.</Link>
+        <Link to="/" style={styles.logo}>Ayush Dhabsa.</Link>
         <nav style={styles.nav}>
           {navLink('/', 'Home')}
           {navLink('/blog', 'Blog')}

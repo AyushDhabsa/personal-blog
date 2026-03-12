@@ -12,7 +12,7 @@ const styles = {
 export default function Footer() {
   return (
     <footer style={styles.footer}>
-      <p>© {new Date().getFullYear()} Ayush. All rights reserved.</p>
+      <p>© {new Date().getFullYear()} Ayush Dhabsa. All rights reserved.</p>
     </footer>
   );
 }
