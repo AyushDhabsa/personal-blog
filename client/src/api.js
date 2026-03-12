@@ -1,4 +1,4 @@
-const API = import.meta.env.VITE_API_URL || '';
+const API = import.meta.env.VITE_API_URL || 'https://personal-blog-5cfp.onrender.com';
 
 function getHeaders() {
   const h = { 'Content-Type': 'application/json' };
