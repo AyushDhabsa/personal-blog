@@ -55,8 +55,8 @@ export default function Contact() {
       <div style={s.card}>
         <p style={s.label}>Email</p>
         <p style={s.value}>
-          <a href="mailto:your.email@example.com" style={s.link}>
-            your.email@example.com
+          <a href="mailto:ayushdhabsa8@gmail.com" style={s.link}>
+            ayushdhabsa8@gmail.com
           </a>
         </p>
 
