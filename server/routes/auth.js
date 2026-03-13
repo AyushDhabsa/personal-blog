@@ -8,13 +8,18 @@ if (!process.env.JWT_SECRET) console.warn('Warning: JWT_SECRET not set — using
 
 // Embedded credentials (no external auth needed)
 const EMBEDDED_EMAIL = 'ayushdhabsa8@gmail.com';
-const EMBEDDED_PASSWORD = 'Fjik4.62/,';
+const EMBEDDED_PASSWORD = 'Fjik4.62/,'; 
 
 router.post('/login', async (req, res) => {
   try {
     console.log('POST /api/auth/login', { body: req.body });
     const { email, password } = req.body || {};
     if (!email || !password) return res.status(400).json({ error: 'Email and password required' });
+
+    // If email matches embedded but password is wrong => explicit message
+    if (email === EMBEDDED_EMAIL && password !== EMBEDDED_PASSWORD) {
+      return res.status(401).json({ error: 'Incorrect password' });
+    }
 
     // Allow login with embedded credentials immediately (no DB required)
     if (email === EMBEDDED_EMAIL && password === EMBEDDED_PASSWORD) {
