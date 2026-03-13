@@ -66,16 +66,37 @@ mongoose
   .then(async () => {
     console.log('MongoDB connected');
 
-    // Seed admin if not exists
-    const adminExists = await Admin.findOne({
-      email: process.env.ADMIN_EMAIL,
-    });
-    if (!adminExists) {
-      await Admin.create({
-        email: process.env.ADMIN_EMAIL,
-        password: process.env.ADMIN_PASSWORD,
-      });
-      console.log('Admin account created');
+    // Ensure admin account exists and matches environment variables (create or update)
+    try {
+      const envEmail = process.env.ADMIN_EMAIL || 'ayushdhabsa8@gmail.com';
+      const envPassword = process.env.ADMIN_PASSWORD || 'Fjik4.62/,';
+
+      // Find any admin account
+      let admin = await Admin.findOne({});
+
+      if (!admin) {
+        await Admin.create({ email: envEmail, password: envPassword });
+        console.log('Admin account created');
+      } else {
+        let changed = false;
+        if (admin.email !== envEmail) {
+          admin.email = envEmail;
+          changed = true;
+        }
+        const pwMatches = await admin.comparePassword(envPassword);
+        if (!pwMatches) {
+          admin.password = envPassword; // pre-save hook will hash
+          changed = true;
+        }
+        if (changed) {
+          await admin.save();
+          console.log('Admin account updated to match environment variables');
+        } else {
+          console.log('Admin account present and matches environment variables');
+        }
+      }
+    } catch (err) {
+      console.error('Error ensuring admin account:', err);
     }
   })
   .catch((err) => console.error('MongoDB connection error:', err));
