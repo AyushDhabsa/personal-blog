@@ -66,37 +66,21 @@ mongoose
   .then(async () => {
     console.log('MongoDB connected');
 
-    // Ensure admin account exists and matches environment variables (create or update)
-    try {
-      const envEmail = process.env.ADMIN_EMAIL || 'ayushdhabsa8@gmail.com';
-      const envPassword = process.env.ADMIN_PASSWORD || 'Fjik4.62/,';
+    // Ensure admin account exists (use provided env vars or safe defaults)
+    const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'ayushdhabsa8@gmail.com';
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Fjik4.62/,';
 
-      // Find any admin account
-      let admin = await Admin.findOne({});
-
-      if (!admin) {
-        await Admin.create({ email: envEmail, password: envPassword });
-        console.log('Admin account created');
-      } else {
-        let changed = false;
-        if (admin.email !== envEmail) {
-          admin.email = envEmail;
-          changed = true;
-        }
-        const pwMatches = await admin.comparePassword(envPassword);
-        if (!pwMatches) {
-          admin.password = envPassword; // pre-save hook will hash
-          changed = true;
-        }
-        if (changed) {
-          await admin.save();
-          console.log('Admin account updated to match environment variables');
-        } else {
-          console.log('Admin account present and matches environment variables');
-        }
+    let admin = await Admin.findOne({ email: ADMIN_EMAIL });
+    if (!admin) {
+      await Admin.create({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
+      console.log('Admin account created:', ADMIN_EMAIL);
+    } else {
+      // If admin exists but password environment variable is provided, update password
+      if (process.env.ADMIN_PASSWORD) {
+        admin.password = ADMIN_PASSWORD;
+        await admin.save();
+        console.log('Admin password updated for', ADMIN_EMAIL);
       }
-    } catch (err) {
-      console.error('Error ensuring admin account:', err);
     }
   })
   .catch((err) => console.error('MongoDB connection error:', err));
